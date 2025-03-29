@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html translate="no" lang="DE">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/x-icon" href="img/favicon/4rk4n_white_trans.png">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="js/script.js"></script>
+    <script src="classes/drawable-object.class.js"></script>
+    <script src="classes/movable-object.class.js"></script>
+    <script src="classes/character.class.js"></script>
+    <script src="classes/chicken.class.js"></script>
+    <script src="classes/chick.class.js"></script>
+    <script src="classes/coin.class.js"></script>
+    <script src="classes/bottle.class.js"></script>
+    <script src="classes/clouds.class.js"></script>
+    <script src="classes/status-bar.class.js"></script>
+    <script src="classes/coin-bar.class.js"></script>
+    <script src="classes/bottle-bar.class.js"></script>
+    <script src="classes/boss-bar.class.js"></script>
+    <script src="classes/world.class.js"></script>
+    <script src="classes/background.class.js"></script>
+    <script src="classes/keyboard.class.js"></script>
+    <script src="classes/level.class.js"></script>
+    <script src="classes/throwable.class.js"></script>
+    <script src="classes/endboss.class.js"></script>
+    <script src="levels/level1.js"></script>
+    <script src="js/game.js"></script>
+
+    <title>El Pollo Loco</title>
+
+</head>
+
+<body>
+
+    <h1 class="name">El pollo loco</h1>
+
+    <div class="start-screen" id="start-screen">
+
+        <div class="homescreen-buttons">
+            <button class="start-button" onclick="startGame()">Start Game</button>
+            <button class="how-to-play" onclick="showDialog()">How to play</button>
+        </div>
+
+        <div class="dialog-bg d-none" id="dialog" onclick="hideDialog()">
+            <div class="how-to-play-div" id="how-to-play-div">
+                Left Arrow = Move Left <br>
+                Right Arrow = Move right <br>
+                Space = jump <br>
+                C = Spend Coins to refill HP <br>
+                B = throw bottle <br>
+                S = toggle Sound on / off <br>
+                F = toggle Fullscreen
+            </div>
+        </div>
+
+        <div class="impressum-bg d-none" id="imp-dialog" onclick="hideImpressum()">
+            <div class="impressum" id="impressum-div">
+                <h2>Impressum</h2>
+
+                <p>Stefan Krća</p>
+                <p>Breslauer Straße 1a</p>
+                <p>68723 Schwetzingen</p>
+
+                <h2 id="m56">Kontaktmöglichkeiten</h2>
+                <p>E-Mail-Adresse: <a href="mailto:golesa@web.de">golesa@web.de</a></p>
+            </div>
+        </div>
+
+        <div class="impressum-txt" onclick="showImpressum()">impressum</div>
+
+    </div>
+
+    <div id="canvas-div" class="canvas-div d-none">
+        <canvas id="canvas" width="720" height="480"></canvas>
+    </div>
+
+    <div id="rotate" class="rotate d-none">
+        <img class="rotate-img" src="img/hud_icons/device-rotate.png">
+        <h2 class="rotateTxT">Rotate youre Device!</h2>
+    </div>
+
+    <div id="panel-div" class="panel-div d-none">
+        <div class="panel-frame" id="panel-frame">
+            <div class="button-panel-main" id="button-panel-main">
+                <div class="move-buttons hide-mobile">
+                    <img class="hud-button" id="button-left" src="img/hud_icons/left.png">
+                    <img class="hud-button" id="button-right" src="img/hud_icons/right.png">
+                </div>
+
+                <div id="toggle-sound-btn">
+                    <img class="hud-button" id="toggle-sounds" src="img/hud_icons/soundOn.png"
+                        onclick="toggleMuteSounds()">
+                </div>
+
+                <div class="jump-throw-buttons hide-mobile">
+                    <img class="hud-button" id="button-jump" src="img/hud_icons/up.png">
+                    <img class="hud-button" id="button-throw" src="img/hud_icons/throw.png">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-over-div" class="game-over-div d-none">
+        <div class="game-over-screen" id="game-over-screen">
+            <button class="retry-button" id="retry-button" onclick="retryGame()">Retry</button>
+        </div>
+    </div>
+
+    <div id="win-div" class="win-div d-none">
+        <div class="win-screen" id="win-screen">
+            <button class="restart-button" id="restart-button" onclick="retryGame()">Restart</button>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
