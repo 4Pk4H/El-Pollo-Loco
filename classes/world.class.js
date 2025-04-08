@@ -23,7 +23,7 @@ class World {
         this.checkConnectCoins();
         this.checkConnectBottles();
         this.checkBottleHit();
-        this.stompEnemy()
+        this.stompEnemy();
         this.run();
         playSound('music');
     }
@@ -42,11 +42,6 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrow();
-            if (this.keyboard.C) {
-                this.character.spendCoins();
-                this.coinBar.setCoinAmmount(this.character.coins);
-                this.statusBar.setPercentage(this.character.energy);
-            }
         }, 200);
     }
 
@@ -64,17 +59,23 @@ class World {
         }
     }
 
-    /**
+   /**
      * Checks for collisions between the character and enemies, applying damage if necessary.
      */
-    checkCollisions() {
-        this.level.enemies.forEach((enemy, Endboss) => {
-            if (this.character.isColliding(enemy, Endboss) && !enemy.isDead) {
+   checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy) && !enemy.isDead) {
+            console.log("Collided with:", enemy.constructor.name);
+            if (!(enemy instanceof Endboss)) { 
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy);
+            } else {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             }
-        });
-    }
+        }
+    });
+}
 
     /**
      * Checks for collisions.
@@ -119,7 +120,7 @@ class World {
         bottle.isSplashed = true;
         bottle.splashAnimation();
         enemy.enemyHit();
-        this.removeEnemyAndBottle(enemyIndex, bottleIndex);
+        this.safelyRemoveEnemyAndBottle(enemyIndex, bottleIndex);
     }
 
     /**
@@ -139,36 +140,45 @@ class World {
     }
 
     /**
-     * Removes an enemy and a bottle (throwable object) from the game after a short delay.
-     * @param {Object} enemy - The enemy object that should be removed from the level.
-     * @param {number} bottleIndex - The index of the bottle in the `throwableObjects` array that should be removed.
-     * @returns {void}
+     * Safely removes an enemy and a bottle after a delay.
+     * @param {number} enemyIndex - The index of the enemy in the enemies array.
+     * @param {number} bottleIndex - The index of the bottle in the throwableObjects array.
      */
-    removeEnemyAndBottle(enemy, bottleIndex) {
+    safelyRemoveEnemyAndBottle(enemyIndex, bottleIndex) {
         setTimeout(() => {
-            const indexOfEnemy = this.level.enemies.indexOf(enemy);
-            this.level.enemies.splice(indexOfEnemy, 1);
-            this.throwableObjects.splice(bottleIndex, 1);
+            if (this.level.enemies[enemyIndex]) {
+                this.level.enemies.splice(enemyIndex, 1);
+            }
+            if (this.throwableObjects[bottleIndex]) {
+                this.throwableObjects.splice(bottleIndex, 1);
+            }
         }, 400);
     }
-
+    
     /**
      * Checks if the character collides with any enemy while jumping and applies a stomp effect.
      */
     stompEnemy() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy, indexOfEnemy) => {
-                if (this.character.isColliding(enemy) && this.character.isAboveGround() && !enemy.isDead && this.character.y <= enemy.y + 10) {
-                    enemy.isDead = true;
-                    playSound('stomp');
-                    enemy.enemyHit();
-                    setTimeout(() => {
-                        this.level.enemies.splice(indexOfEnemy, 1);
-                    }, 250);
-                    this.character.speedY = -10;
-                }
-            });
+            if (this.character.jumpResetting || this.character.isHurt()) return;
+            let enemy = this.level.enemies.find(e => !e.isDead && this.character.isColliding(e) &&
+                this.character.isAboveGround() && this.character.y < e.y + 10);
+            if (enemy) { this.processStomp(enemy); }
         }, 50);
+    }
+    
+    processStomp(enemy) {
+        playSound('stomp'); this.character.speedY = -10;
+        if (enemy instanceof Endboss) {
+            enemy.bossHit(); this.bossBar.setBossPercentage(enemy.bossEnergy);
+        } else {
+            enemy.isDead = true;
+            if (typeof enemy.enemyHit === 'function') enemy.enemyHit();
+            setTimeout(() => {
+                let idx = this.level.enemies.indexOf(enemy);
+                if (idx !== -1 && enemy.isDead) this.level.enemies.splice(idx, 1);
+            }, 250);
+        }
     }
 
     /**

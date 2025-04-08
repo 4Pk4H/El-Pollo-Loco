@@ -8,6 +8,5 @@ class Keyboard {
     B = false;
     S = false;
     F = false;
-    C = false;
     
 }

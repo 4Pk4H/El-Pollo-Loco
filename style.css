@@ -32,6 +32,12 @@ canvas {
     box-shadow: 3px 3px 10px 0px #000000;
 }
 
+@media only screen and (max-width: 1400px) {
+    .start-screen {
+        background-position: right !important;
+    }
+}
+
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100% !important;
@@ -117,7 +123,6 @@ h1 {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
     z-index: 999;
 }
 
@@ -207,6 +212,21 @@ h1 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
+.mainpage-button {
+
+    margin-top: 20px;
+    font-size: 35px;
+    color: black;
+    font-family: Super;
+    text-shadow: 1px 1px black;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
 .home-button {
     margin-top: 30px !important;
 }
@@ -229,7 +249,8 @@ h1 {
 .retry-button:hover,
 .restart-button:hover,
 .home-button:hover,
-.how-to-play:hover {
+.how-to-play:hover,
+.mainpage-button:hover {
     background-color: #ffaa00;
     scale: 110%;
 }

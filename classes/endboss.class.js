@@ -141,7 +141,7 @@ class Endboss extends MovableObject {
             this.playAnimation(this.IMAGES_WIN);
             setTimeout(() => {
                 this.img = this.imageCache[this.IMAGES_WIN[this.IMAGES_WIN.length - 1]];
-            }, this.IMAGES_WIN.length * 300);
+            }, this.IMAGES_WIN.length * 120);
         }
     }
 }

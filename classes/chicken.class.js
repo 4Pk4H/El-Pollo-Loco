@@ -36,20 +36,26 @@ class Chicken extends MovableObject {
      * Animates the chicken object. Handles movement, animations, and sound effects.
      */
     animate() {
-        setInterval(() => {
-            this.moveLeft();
-        }, 1000 / 60);
-        setInterval(() => {
-            if (!this.isDead){
-            this.playAnimation(this.IMAGES_CHICKEN_WALKING);
-            playSound('chicken');
-            }
-            if (this.hitByBottle) {
-                this.loadImage(this.IMAGES_CHICKEN_DEAD);
-                setTimeout(() => {
-                    this.hitByBottle = false;
-                }, 2200);
-            }
+        this.animateMovement();
+        this.animateAnimation();
+    }
+
+    animateAnimation() {
+        this.animationInterval = setInterval(() => {
+          if (this.isDead) {
+            this.loadImage(this.IMAGES_CHICKEN_DEAD[0]);
+            clearInterval(this.movementInterval); clearInterval(this.animationInterval);
+          } else {
+            this.playAnimation(this.IMAGES_CHICKEN_WALKING); playSound('chicken');
+            if (this.hitByBottle) { this.loadImage(this.IMAGES_CHICKEN_DEAD[0]); setTimeout(() => this.hitByBottle = false, 2200); }
+          }
         }, 200);
     }
+
+    animateMovement() {
+        this.movementInterval = setInterval(() => {
+          if (!this.isDead) { this.moveLeft(); }
+        }, 1000 / 60);
+    }
+      
 }

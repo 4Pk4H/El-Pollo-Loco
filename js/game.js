@@ -83,6 +83,23 @@ function toggleMuteSounds() {
         document.getElementById('toggle-sounds').src = 'img/hud_icons/soundOff.png';
     }
     soundsMuted = !soundsMuted;
+    localStorage.setItem("soundsMuted", soundsMuted);
+}
+
+/**
+ * Applies the mute setting from Local Storage to all game sounds and updates the UI.
+ */
+function applyMuteSetting() {
+    const muteSetting = localStorage.getItem("soundsMuted");
+    if (muteSetting === "true") {
+        muteSounds();
+        soundsMuted = true;
+        document.getElementById('toggle-sounds').src = 'img/hud_icons/soundOff.png';
+    } else {
+        unmuteSounds();
+        soundsMuted = false;
+        document.getElementById('toggle-sounds').src = 'img/hud_icons/soundOn.png';
+    }
 }
 
 /**

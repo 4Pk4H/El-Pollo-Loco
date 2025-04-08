@@ -40,7 +40,6 @@
     <h1 class="name">El pollo loco</h1>
 
     <div class="start-screen" id="start-screen">
-
         <div class="homescreen-buttons">
             <button class="start-button" onclick="startGame()">Start Game</button>
             <button class="how-to-play" onclick="showDialog()">How to play</button>
@@ -51,7 +50,6 @@
                 Left Arrow = Move Left <br>
                 Right Arrow = Move right <br>
                 Space = jump <br>
-                C = Spend Coins to refill HP <br>
                 B = throw bottle <br>
                 S = toggle Sound on / off <br>
                 F = toggle Fullscreen
@@ -108,12 +106,18 @@
     <div id="game-over-div" class="game-over-div d-none">
         <div class="game-over-screen" id="game-over-screen">
             <button class="retry-button" id="retry-button" onclick="retryGame()">Retry</button>
+            <a href="/index.html">
+                <button class="mainpage-button">Startseite</button>
+            </a>
         </div>
     </div>
 
     <div id="win-div" class="win-div d-none">
         <div class="win-screen" id="win-screen">
-            <button class="restart-button" id="restart-button" onclick="retryGame()">Restart</button>
+            <button class="retry-button" id="restart-button" onclick="retryGame()">Restart</button>
+            <a href="/index.html">
+                <button class="mainpage-button">Startseite</button>
+            </a>
         </div>
     </div>
 

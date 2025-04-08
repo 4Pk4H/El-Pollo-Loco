@@ -7,6 +7,7 @@ function startGame() {
     document.getElementById('panel-div').style.display = 'block';
     initLevel();
     init();
+    applyMuteSetting();
 }
 
 /**
@@ -21,6 +22,7 @@ function retryGame() {
     initLevel();
     init();
     unmuteSounds();
+    applyMuteSetting();
 }
 
 /**

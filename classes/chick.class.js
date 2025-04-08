@@ -37,20 +37,32 @@ class Chick extends MovableObject {
      * Animates the chick object. Plays the walking animation and handles the behavior when hit by a bottle.
      */
     animate() {
-        setInterval(() => {
-            this.moveLeft();
-        }, 1000 / 60);
-        setInterval(() => {
-            if (!this.isDead){
+        this.animateMovement();
+        this.animateAnimation();
+    }
+
+    animateAnimation() {
+        this.animationInterval = setInterval(() => {
+          if (this.isDead) {
+            this.loadImage(this.IMAGES_CHICK_DEAD[0]);
+            clearInterval(this.movementInterval);
+            clearInterval(this.animationInterval);
+          } else {
             this.playAnimation(this.IMAGES_CHICK_WALKING);
             playSound('chick');
-            }
             if (this.hitByBottle) {
-                this.loadImage(this.IMAGES_CHICK_DEAD);
-                setTimeout(() => {
-                    this.hitByBottle = false;
-                }, 2200);
+              this.loadImage(this.IMAGES_CHICK_DEAD[0]);
+              setTimeout(() => { this.hitByBottle = false; }, 2200);
             }
+          }
         }, 200);
-    }
+      }
+
+      animateMovement() {
+        this.movementInterval = setInterval(() => {
+          if (!this.isDead) { this.moveLeft(); }
+        }, 1000 / 60);
+      }
+
+
 }

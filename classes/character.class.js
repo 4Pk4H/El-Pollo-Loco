@@ -111,7 +111,7 @@ class Character extends MovableObject {
             clearInterval(this.idleAnimationInterval);
             this.idleAnimationInterval = null;
         }
-        this.idleTimeout = setTimeout(() => this.onIdle(), 500);
+        this.idleTimeout = setTimeout(() => this.onIdle(), 1);
         this.sleepTimeout = setTimeout(() => this.onSleep(), 10000);
     }
 
@@ -172,6 +172,9 @@ class Character extends MovableObject {
         this.characterMovesRight();
         this.characterMovesLevt();
         this.characterJumps();
+        if (this.isAboveGround() && this.speedY < 0 && this.y >= this.groundPosition) {
+            this.resetJumpAnimations();
+        }
     }
 
     /**
@@ -208,6 +211,21 @@ class Character extends MovableObject {
         }, 1000 / 60);
     }
 
+     /**
+     * Reset the character's jumping action.
+     */
+     resetJumpAnimations() {
+        if (!this.isAboveGround()) {
+            this.currentImage = 0;
+            this.loadImage(this.IMAGES_WALKING[0]);
+            this.isJumping = false;
+            this.jumpResetting = true;
+            setTimeout(() => {
+                this.jumpResetting = false;
+            }, 100);
+        }
+    }
+
     /**
      * Controls the character's jumping action.
      */
@@ -233,12 +251,13 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+                this.resetJumpAnimations();
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
+                this.resetIdleTimer();
             } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.x += this.speed;
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
+                this.playAnimation(this.IMAGES_IDLE);
             }
-        }, 80);
+        }, 100);
     }
 }
